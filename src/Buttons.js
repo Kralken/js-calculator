@@ -6,7 +6,7 @@ export default function Buttons() {
   return (
     <div id='buttons-area' className='buttons-area'>
       <Button id='clear' className='button button-clear button-one-by-two' value='AC' />
-      <Button id='divide' className='button button-divide button-one-by-one' value='÷' />
+      <Button id='divide' className='button button-divide button-one-by-one' value='/' />
       <Button id='multiply' className='button button-multiply button-one-by-one' value='*' />
       <Button id='seven' className='button number button-seven button-one-by-one' value={7} />
       <Button id='eight' className='button number button-eight button-one-by-one' value={8} />
@@ -44,7 +44,10 @@ function Button({ id, className, value }) {
       }
     } else {
       //for pressing function buttons
-      if (state.status == 'EDITING') {
+      if (
+        state.status == 'EDITING' ||
+        (state.status == 'BEFORE_EDIT' && !state.expression.length)
+      ) {
         switch (id) {
           case 'subtract':
             //check first if subract is used to denote negative or subract
@@ -60,7 +63,7 @@ function Button({ id, className, value }) {
             dispatch({ type: id });
           }
         }
-      } else {
+      } else if (state.status == 'SHOWING_RESULT') {
         //if status is 'SHOWING_RESULT' handle buttons differently
         switch (id) {
           case 'clear': {
@@ -77,6 +80,36 @@ function Button({ id, className, value }) {
             break;
           default: {
             dispatch({ type: 'USE_TOTAL', operation: value });
+          }
+        }
+      } else {
+        if (state.status == 'BEFORE_EDIT' && state.expression.length != 0) {
+          switch (id) {
+            case 'subtract':
+              //check first if subract is used to denote negative or subract
+              {
+                if (state.currentNum == 0) {
+                  dispatch({ type: 'NEGATE' });
+                } else {
+                  dispatch({ type: 'CHANGE_OPERATOR', operator: value });
+                }
+              }
+              break;
+            case 'clear': {
+              dispatch({ type: id });
+              break;
+            }
+            case 'equals': {
+              dispatch({ type: id });
+              break;
+            }
+            case 'decimal': {
+              dispatch({ type: id });
+              break;
+            }
+            default: {
+              dispatch({ type: 'CHANGE_OPERATOR', operator: value });
+            }
           }
         }
       }

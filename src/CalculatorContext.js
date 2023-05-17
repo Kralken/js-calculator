@@ -8,7 +8,7 @@ export const initialState = {
   negativeMultiplier: 1,
   editingDecimal: false,
   currentDecimalPlace: 10,
-  status: 'EDITING',
+  status: 'BEFORE_EDIT',
 };
 
 const calculatorReducer = (state, action) => {
@@ -17,6 +17,7 @@ const calculatorReducer = (state, action) => {
       return {
         ...state,
         currentNum: state.currentNum * 10 + action.number,
+        status: 'EDITING',
       };
     }
     case 'clear': {
@@ -62,6 +63,7 @@ const calculatorReducer = (state, action) => {
       return {
         ...state,
         editingDecimal: true,
+        status: 'EDITING',
       };
     }
     case 'INPUT_DECIMAL': {
@@ -75,16 +77,27 @@ const calculatorReducer = (state, action) => {
       return {
         ...initialState,
         expression: [
-          eval([...state.expression, state.currentNum * state.negativeMultiplier].join('')),
+          eval([...state.expression, state.currentNum * state.negativeMultiplier].join(' ')),
           action.operation,
         ],
-        status: 'EDITING',
+        status: 'BEFORE_EDIT',
       };
     }
     case 'DECIMAL_START': {
       return {
         ...initialState,
         editingDecimal: true,
+        status: 'EDITING',
+      };
+    }
+    case 'CHANGE_OPERATOR': {
+      return {
+        ...state,
+        expression: [
+          ...[...state.expression].slice(0, state.expression.length - 1),
+          action.operator,
+        ],
+        negativeMultiplier: 1,
       };
     }
     default: {
