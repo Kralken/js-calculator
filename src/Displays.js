@@ -40,8 +40,14 @@ export function InputScreen({ result }) {
     //show the result instead
     display = result;
   }
+
+  let style;
+  if (state.status === 'SHOWING_RESULT') {
+    style = { fontSize: '4em', transition: 'all 0.5s' };
+  }
+
   return (
-    <div id='display' className='input-display'>
+    <div id='display' className='input-display' style={style}>
       {display}
     </div>
   );
@@ -49,7 +55,6 @@ export function InputScreen({ result }) {
 
 export function ResultScreen({ result }) {
   const { state } = useContext(CalculatorContext);
-
   return (
     <div id='result-display' className='result-display'>
       {state.status != 'SHOWING_RESULT' && `= ${result}`}

@@ -11,4 +11,9 @@ import './src/styles.scss';
 // );
 
 // !!! have to change to old render to pass fcc test !!!
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root'),
+);

@@ -23,8 +23,10 @@ export default function Calculator() {
   console.log(result.current);
   return (
     <div id='calculator' className='calculator'>
-      <InputScreen result={result.current} />
-      <ResultScreen result={result.current} />
+      <div className='screen'>
+        <InputScreen result={result.current} />
+        <ResultScreen result={result.current} />
+      </div>
       <Buttons />
     </div>
   );

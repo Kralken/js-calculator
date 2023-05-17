@@ -19,9 +19,9 @@ export default function Buttons() {
       <Button id='one' className='button number button-one button-one-by-one' value={1} />
       <Button id='two' className='button number button-two button-one-by-one' value={2} />
       <Button id='three' className='button number button-three button-one-by-one' value={3} />
+      <Button id='equals' className='button button-equals button-two-by-one' value='=' />
       <Button id='zero' className='button number button-zero button-one-by-two' value={0} />
       <Button id='decimal' className='button button-decimal button-one-by-one' value='.' />
-      <Button id='equals' className='button button-equals button-two-by-one' value='=' />
     </div>
   );
 }
